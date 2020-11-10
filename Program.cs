@@ -22,7 +22,7 @@ namespace PhoneBook
                     Console.WriteLine("Bye-bye");
                     break;
                 }
-                else if (commandInput == "Add")
+                else if (commandInput == "add")
                 {
                     Console.Clear();
                     Console.WriteLine("Adding new record. You can write Surname, Name, Lastname, Phone (only digits), Country, Birthday, Organization, Position and Notes.");
@@ -108,7 +108,7 @@ namespace PhoneBook
                     Console.WriteLine("Record was saved");
                     Console.WriteLine("Waiting for command");
                 }
-                else if (commandInput == "Delete")
+                else if (commandInput == "delete")
                 {
                     Console.Clear();
                     Console.WriteLine("Delete record");
@@ -132,6 +132,7 @@ namespace PhoneBook
                         {
                             if (ourPhoneBook.CheckIndex(num))
                             {
+                                ourPhoneBook.DeleteRecord(num);
                                 Console.Clear();
                                 Console.WriteLine("Record was succesfully removed");                                                            
                                 Console.WriteLine("Waiting for command");
@@ -143,6 +144,183 @@ namespace PhoneBook
                             }
                         }
                     }      
+                }
+                else if (commandInput == "edit")
+                {
+                    Console.Clear();
+                    Console.WriteLine("Editinig record");
+                    Console.WriteLine("First you need to choose record to edit.");
+                    Console.WriteLine("Type order number of record you want to edit. Type 'exit' if you want to go back");
+                    string input;
+                    int num;
+                    while(true)
+                    {
+                        input = Console.ReadLine();
+                        if (input == "exit")
+                        {
+                            Console.Clear();
+                            Console.WriteLine("Waiting for command");
+                            continue;
+                        }
+                        else
+                        {
+                            if (!(Int32.TryParse(input, out num)))
+                            {
+                                Console.WriteLine("Can't understand number you wrote. Try again");
+                            }
+                            else
+                            {
+                                if (ourPhoneBook.CheckIndex(num))
+                                {
+                                    Console.Clear();
+                                    Console.WriteLine("Editing record {0}", num);                                                            
+                                    break;
+                                }
+                                else
+                                {
+                                    Console.WriteLine("There is no such index. Try again.");
+                                }
+                            }
+                        }
+                    }
+                    Console.WriteLine("Second you need to edit fields of this record.");
+                    Console.WriteLine("You will see what was record and then would be able to type a new information");
+                    Console.WriteLine("Leave string empty if you don't want to change current field");
+                    PhoneBookRecord currentRecord = ourPhoneBook.ExtractPhoneBookRecord(num);
+                    // asd
+                    Console.WriteLine("Surname:");
+                    Console.WriteLine("\"{0}\"", currentRecord.Surname);                                    
+                    string surname = Console.ReadLine();
+                    if (surname != "")
+                    {
+                        currentRecord.Surname = surname;
+                    }
+                    Console.WriteLine("Name:");
+                    Console.WriteLine("\"{0}\"", currentRecord.Name);
+                    string name = Console.ReadLine();
+                    if (name != "")
+                    {
+                        currentRecord.Name = name;
+                    }                  
+                    Console.WriteLine("Lastname:");
+                    Console.WriteLine("\"{0}\"", currentRecord.Lastname);
+                    string lastname = Console.ReadLine(); 
+                    if (lastname != "")
+                    {
+                        currentRecord.Lastname = lastname;
+                    }    
+                    Console.WriteLine("Phone:");
+                    Console.WriteLine("\"{0}\"", currentRecord.Phone);
+                    string phoneStr;
+                    long phone;
+                    while(true)
+                    {
+                        phoneStr = Console.ReadLine();
+                        if (phoneStr == "")
+                        {
+                            break;
+                        }
+                        if (!Int64.TryParse(phoneStr, out phone))
+                        {
+                            Console.WriteLine("Can't understand such phone number. Try again.");
+                        }
+                        else
+                        {
+                            if (phone <= 0)
+                            {
+                                Console.WriteLine("Can't understand such phone number. Try again.");
+                            }
+                            else
+                            {
+                                currentRecord.Phone = phone;
+                                break;
+                            }
+                        }
+                    }
+                    Console.WriteLine("Country:");
+                    Console.WriteLine("\"{0}\"", currentRecord.Country);
+                    string country = Console.ReadLine();
+                    if (country != "")
+                    {
+                        currentRecord.Country = country;
+                    } 
+                    Console.WriteLine("Birthday:");
+                    Console.WriteLine("\"{0}\"", currentRecord.Birthday);
+                    string birthday = Console.ReadLine(); 
+                    if (birthday != "")
+                    {
+                        currentRecord.Birthday = birthday;
+                    } 
+                    Console.WriteLine("Organization:");
+                    Console.WriteLine("\"{0}\"", currentRecord.Organization);
+                    string organization = Console.ReadLine(); 
+                    if (organization != "")
+                    {
+                        currentRecord.Organization = organization;
+                    } 
+                    Console.WriteLine("Position:");
+                    Console.WriteLine("\"{0}\"", currentRecord.Position);
+                    string position = Console.ReadLine(); 
+                    if (position != "")
+                    {
+                        currentRecord.Position = position;
+                    } 
+                    Console.WriteLine("Note:");
+                    Console.WriteLine("\"{0}\"", currentRecord.Note);
+                    string note = Console.ReadLine(); 
+                    if (note != "")
+                    {
+                        currentRecord.Note = note;
+                    } 
+                    ourPhoneBook.EditRecord(num, currentRecord);
+                }
+                else if (commandInput == "print")
+                {
+                    Console.WriteLine("Printing record info");
+                    Console.WriteLine("You need to type index of record you want to print");
+                    Console.WriteLine("Type order number of record you want to delete. Type 'exit' if you want to go back.");
+                    string input;
+                    int num;
+                    while(true)
+                    {
+                        input = Console.ReadLine();
+                        if (input == "exit")
+                        {
+                            Console.Clear();
+                            Console.WriteLine("Waiting for command");
+                            break;
+                        }
+                        if (!(Int32.TryParse(input, out num)))
+                        {
+                            Console.WriteLine("Can't understand number you wrote. Try again");
+                        }
+                        else
+                        {
+                            if (ourPhoneBook.CheckIndex(num))
+                            {
+                                Console.Clear();
+                                Console.WriteLine("Printing information about record number {0}", num);     
+                                PhoneBookRecord currentRecord = ourPhoneBook.ExtractPhoneBookRecord(num);
+                                // добавить вывод здесь
+                                Console.WriteLine("Name");
+                                // конец вывода
+                                Console.WriteLine("Waiting for command");
+                                break;
+                            }
+                            else
+                            {
+                                Console.WriteLine("There is no such index. Try again.");
+                            }
+                        }
+                    }   
+                    Console.WriteLine("Press enter to continue");
+                    input = Console.ReadLine();
+                    Console.Clear();
+                    Console.WriteLine("Waiting for command");
+                }
+                else if (commandInput == "Print all")
+                {
+
                 }
                 else
                 {
@@ -159,17 +337,13 @@ namespace PhoneBook
         {
             this.allRecords.Add(record);
         }
-        public void EditRecord()
+        public void EditRecord(int index, PhoneBookRecord record)
         {
-            
+            this.allRecords[index - 1] = record;
         }
         public void DeleteRecord(int num)
         {
             this.allRecords.Remove(this.allRecords[num - 1]);
-        }
-        public void PrintRecord()
-        {
-            
         }
         public void PrintAllRecords()
         {
@@ -182,6 +356,14 @@ namespace PhoneBook
                 return true;
             }
             return false;
+        }
+        public PhoneBookRecord ExtractPhoneBookRecord(int index)
+        {
+            if (this.allRecords.Count() >= index && index >= 1)
+            {
+                return this.allRecords[index - 1];
+            }
+            return null;
         }
     }
 

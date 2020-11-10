@@ -12,7 +12,7 @@ Required functionality:
 	* [x] Organization
 	* [x] Position
 	* [x] Notes
-2. [ ] Editing existing records
+2. [x] Editing existing records
 3. [x] Deleting existing records
 4. [ ] View existing records
 5. [ ] View all existing records with shord information including
